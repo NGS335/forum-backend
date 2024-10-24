@@ -41,11 +41,11 @@ router.post('/register', [
 
         //saving new user to db
         await user.save();
-
+        console.log('User registered successfully');
         res.status(201).json({ msg: 'User registered successfully' });
 
     } catch (err) {
-        console.error(err.message);
+        console.error('Error during registration: ', err.message);
         res.status(500).send('Server error');
     }
 });
@@ -83,6 +83,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/', (req, res) => {
+    console.log('Get / line')
     res.send('User routes will be here!');
 });
 
