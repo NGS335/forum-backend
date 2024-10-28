@@ -67,7 +67,41 @@
         <div class="sign-in">
             <p>Already have an account? <a href="login.html">Sign In</a></p>
         </div>
+        <div id="message"></div>
     </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();  // Prevent form from refreshing the page
+
+            // Get form data
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Make POST request to /register
+            try {
+                const response = await fetch('/api/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                // Display message based on response
+                const messageDiv = document.getElementById('message');
+                if (response.status === 201) {
+                    messageDiv.innerHTML = `<p class="success">${data.msg}</p>`;
+                } else {
+                    messageDiv.innerHTML = `<p class="error">${data.msg}</p>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
 
 </body>
 </html>

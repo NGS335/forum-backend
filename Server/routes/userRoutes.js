@@ -10,10 +10,12 @@ const router = express.Router();
 
 //User registering
 router.post('/register', [
+    
     // username and password check
     check('username', 'Username is required').not().isEmpty(),
     check('password', 'Password must be at least 6 characters long').isLength({ min: 6 })
 ], async (req, res) => {
+    console.log(req.body);
     //validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
