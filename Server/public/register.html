@@ -67,7 +67,6 @@
         <div class="sign-in">
             <p>Already have an account? <a href="login.html">Sign In</a></p>
         </div>
-        <div id="message"></div>
     </div>
 
     <script>
@@ -90,12 +89,13 @@
 
                 const data = await response.json();
 
-                // Display message based on response
-                const messageDiv = document.getElementById('message');
+                // Check if the registration was successful
                 if (response.status === 201) {
-                    messageDiv.innerHTML = `<p class="success">${data.msg}</p>`;
+                    // Redirect to login page
+                    window.location.href = 'login.html';
                 } else {
-                    messageDiv.innerHTML = `<p class="error">${data.msg}</p>`;
+                    // Display error message
+                    alert(data.msg);
                 }
             } catch (error) {
                 console.error('Error:', error);

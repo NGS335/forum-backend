@@ -94,6 +94,9 @@
                 const messageDiv = document.getElementById('message');
                 if (response.status === 200) {
                     messageDiv.innerHTML = `<p class="success">${data.msg}</p>`;
+                    console.log('Login successful'); // Log successful login
+                    // Redirect to the main forum page
+                    window.location.href = '/forum'; // Redirect to the main page
                 } else {
                     messageDiv.innerHTML = `<p class="error">${data.msg}</p>`;
                 }

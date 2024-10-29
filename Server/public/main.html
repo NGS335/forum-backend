@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .forum-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .thread {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .thread:last-child {
+            border-bottom: none;
+        }
+        .create-post {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .create-post button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .create-post button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Welcome to the Forum</h1>
+    </div>
+
+    <div class="forum-container">
+        <h2>Threads</h2>
+        <div id="threadsContainer">
+            <!-- Threads will be populated here -->
+        </div>
+
+        <div class="create-post">
+            <button id="createPostButton">Create Post</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to display threads
+        async function displayThreads() {
+            const threadsContainer = document.getElementById('threadsContainer');
+            try {
+                const response = await fetch('/api/threads');
+                const threads = await response.json();
+
+                threads.forEach(thread => {
+                    const threadDiv = document.createElement('div');
+                    threadDiv.className = 'thread';
+                    threadDiv.innerHTML = `<strong>${thread.title}</strong><p>${thread.content}</p>`;
+                    threadsContainer.appendChild(threadDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching threads:', error);
+            }
+        }
+
+        // Event listener for create post button
+        document.getElementById('createPostButton').addEventListener('click', function() {
+            window.location.href = 'create-post.html'; // Redirect to create post page
+        });
+
+        // Initial call to display threads
+        displayThreads();
+    </script>
+
+</body>
+</html>
