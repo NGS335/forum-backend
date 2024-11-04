@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
+const session = require('express-session');
+
 
 require('dotenv').config(); 
 
@@ -53,6 +55,12 @@ console.log('Post Routes:', postRoutes);
 
 app.use(express.json()); // parsing
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'yourSecretKey',  // Replace with a secure key in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }  // Set to true if using HTTPS
+}));
 
 //routes
 app.use('/api/users', userRoutes);   
@@ -63,6 +71,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to the forum!');
 });
 
+// Serve the main forum page at /forum
+app.get('/forum', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'main.html')); // Adjust path if necessary
+});
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
