@@ -2,14 +2,14 @@ const express = require('express');
 const Thread = require('../models/Thread'); // Import your Thread model
 const router = express.Router();
 
-// Create a new post
+// Create a new thread/post
 router.post('/', async (req, res) => {
     const { title, content } = req.body;
     try {
         const newThread = new Thread({
             title,
             content,
-            creator: req.body.creator || "Anonymous"  // Temporary default value
+            creator,//: req.body.creator || "Anonymous"  // Temporary default value
         });
         await newThread.save();
         res.status(201).json({ msg: 'Post created successfully', thread: newThread });
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/create', (req, res) => {
-    res.send('Thread created');
+    //res.send('Thread created');
 });
 
 router.get('/:id', (req, res) => {

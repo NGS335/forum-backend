@@ -63,28 +63,30 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        //check if the user exists
+        // Check if the user exists
         const user = await User.findOne({ username });
         if (!user) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-        //password comparison
+        // Password comparison
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-         // Log the successful login
-         console.log(`User ${username} logged in successfully`);
-        //login status (success or error)
-        res.status(200).json({ msg: 'Login successful' });
+        // Log the successful login in console
+        console.log(`User ${username} logged in successfully`);
+
+        // Include the username in the response for the client to use
+        res.status(200).json({ msg: 'Login successful', username });
 
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 });
+
 
 router.get('/', (req, res) => {
     console.log('Get / line')

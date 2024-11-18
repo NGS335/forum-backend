@@ -73,38 +73,46 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();  // Prevent form from refreshing the page
-
+    
+            const messageDiv = document.getElementById('message');
+            const loginButton = document.querySelector('button');
+    
             // Get form data
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            // Make POST request to /login
+    
+            // Disable button during login attempt
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+    
             try {
                 const response = await fetch('/api/users/login', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
-
+    
                 const data = await response.json();
-
-                // Display message based on response
-                const messageDiv = document.getElementById('message');
+    
                 if (response.status === 200) {
                     messageDiv.innerHTML = `<p class="success">${data.msg}</p>`;
-                    console.log('Login successful'); // Log successful login
-                    // Redirect to the main forum page
-                    window.location.href = '/forum'; // Redirect to the main page
+                    console.log('Login successful');
+                    localStorage.setItem('username', username); // Save the username locally
+                    window.location.href = '/forum'; // Redirect to the forum
                 } else {
                     messageDiv.innerHTML = `<p class="error">${data.msg}</p>`;
                 }
             } catch (error) {
                 console.error('Error:', error);
+                messageDiv.innerHTML = `<p class="error">An error occurred. Please try again.</p>`;
+            } finally {
+                // Re-enable the button
+                loginButton.disabled = false;
+                loginButton.textContent = 'Login';
             }
         });
     </script>
+    
 
 </body>
 </html>
