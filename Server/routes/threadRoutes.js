@@ -19,8 +19,9 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/create', (req, res) => {
-    //res.send('Thread created');
+router.post('/create', async (req, res) => {
+   
+    res.send({msg:'Thread created'});
 });
 
 router.get('/:id', (req, res) => {

@@ -75,8 +75,10 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
+        
         // Log the successful login in console
         console.log(`User ${username} logged in successfully`);
+
 
         // Include the username in the response for the client to use
         res.status(200).json({ msg: 'Login successful', username });

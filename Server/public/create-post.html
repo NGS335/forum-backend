@@ -61,9 +61,9 @@
         console.log('Script loaded');//make sure script is running
 
        document.getElementById('createPostForm').addEventListener('submit', async function(e) {
-    e.preventDefault(); // Prevent form submission from refreshing the page
+    e.preventDefault(); //stop page from refreshing
 
-    console.log('Form submitted'); // Check if the event is firing
+    console.log('Form submitted'); 
 
     // Get form data
     const title = document.getElementById('title').value;
@@ -73,25 +73,25 @@
     console.log('Creator from localStorage:', creator);
     
 
-    // Log the data to be sent
-    console.log({ title, content, creator }); // Log the request body before sending
+    // logging data being sent
+    console.log({ title, content, creator });
 
     if (!creator) {
         alert('You must be logged in to create a post.');
         window.location.href = '/login'; // Redirect to login if user is not logged in
         return;
     }
-
+    
     try {
-        // Send the request to the server
-        const response = await fetch('/api/threads/create', {
+        // Send the request to the server ()
+        const response = await fetch('api/threads/create', {//http://localhost:5000/create
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, content, creator })
+            //headers: { 'Content-Type': 'application/json' },
+            body:JSON.stringify ({ title:title, content:content, creator:creator })
         });
 
         const data = await response.json();
-
+        console.log(data.msg);
         // Handle response
         if (response.status === 201) {
             document.getElementById('message').innerHTML = `<p class="success">Post created successfully!</p>`;
