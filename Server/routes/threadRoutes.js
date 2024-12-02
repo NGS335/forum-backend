@@ -19,17 +19,58 @@ router.post('/', async (req, res) => {
     }
 });
 
+
+// Create a new thread
 router.post('/create', async (req, res) => {
-   
-    res.send({msg:'Thread created'});
+    console.log('Request body:', req.body); // Log incoming data
+    const { title, content, creator } = req.body;
+
+    try {
+        // Create a new thread instance
+        const newThread = new Thread({
+            title,
+            content,
+            creator,
+        });
+
+        // Save the thread to the database
+        await newThread.save();
+
+        console.log('Thread created:', newThread);
+
+        // Respond to the client with success
+        res.status(201).send({ msg: 'Thread created', thread: newThread });
+    } catch (error) {
+        console.error('Error creating thread:', error);
+        res.status(500).send({ msg: 'Failed to create thread', error: error.message });
+    }
 });
+
+router.get('/threads', async (req, res) => {
+    try {
+        const threads = await Thread.find().sort({ createdAt: -1 }); // Fetch and sort threads
+        res.json(threads); // Send threads as JSON
+    } catch (error) {
+        console.error('Error fetching threads:', error);
+        res.status(500).json({ error: 'Server error' }); // Return JSON error message
+    }
+});
+
 
 router.get('/:id', (req, res) => {
     res.send(`Thread with ID: ${req.params.id}`);
 });
 
-router.get('/', (req, res) => {
-    res.send('Thread routes will be here!');
+// Fetch all threads
+router.get('/', async (req, res) => {
+    try {
+        const threads = await Thread.find().sort({ createdAt: -1 }); // Fetch threads sorted by creation date
+        res.json(threads); // Send the threads as a JSON response
+    } catch (error) {
+        console.error('Error fetching threads:', error);
+        res.status(500).json({ error: 'Server error' }); // Handle any errors
+    }
 });
+
 
 module.exports = router;  

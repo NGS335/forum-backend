@@ -66,21 +66,44 @@
     <script>
         // Function to display threads
         async function displayThreads() {
-            const threadsContainer = document.getElementById('threadsContainer');
-            try {
-                const response = await fetch('/api/threads');
-                const threads = await response.json();
+    const threadsContainer = document.getElementById('threadsContainer');
+    threadsContainer.innerHTML = ''; // Clear any existing content
 
-                threads.forEach(thread => {
-                    const threadDiv = document.createElement('div');
-                    threadDiv.className = 'thread';
-                    threadDiv.innerHTML = `<strong>${thread.title}</strong><p>${thread.content}</p>`;
-                    threadsContainer.appendChild(threadDiv);
-                });
-            } catch (error) {
-                console.error('Error fetching threads:', error);
-            }
+    try {
+        // Fetch threads from the server
+        const response = await fetch('/api/threads'); // Adjust endpoint if needed
+        if (!response.ok) {
+            throw new Error(`Failed to fetch threads: ${response.statusText}`);
         }
+
+        const threads = await response.json();
+
+        // Check if threads are received
+        console.log('Fetched threads:', threads);
+
+        if (threads.length === 0) {
+            threadsContainer.innerHTML = '<p>No threads available. Be the first to create one!</p>';
+            return;
+        }
+
+        // Loop through threads and display them
+        threads.forEach(thread => {
+            const threadDiv = document.createElement('div');
+            threadDiv.className = 'thread';
+            threadDiv.innerHTML = `
+                <h3>${thread.title}</h3>
+                <p>${thread.content}</p>
+                <small>Created by: ${thread.creator || 'Anonymous'}</small>
+            `;
+            threadsContainer.appendChild(threadDiv);
+        });
+    } catch (error) {
+        console.error('Error fetching threads:', error);
+
+        // Display error message on the page
+        threadsContainer.innerHTML = '<p>An error occurred while fetching threads. Please try again later.</p>';
+    }
+}
 
         // Event listener for create post button
         document.getElementById('createPostButton').addEventListener('click', function() {
