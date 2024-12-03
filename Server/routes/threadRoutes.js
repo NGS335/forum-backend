@@ -72,5 +72,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Add a comment to a thread
+router.post('/:threadId/comments', async (req, res) => {
+    const { threadId } = req.params;
+    const { content, creator } = req.body;
+
+    try {
+        const thread = await Thread.findById(threadId);
+        if (!thread) {
+            return res.status(404).json({ msg: 'Thread not found' });
+        }
+
+        const newComment = { content, creator };
+        thread.comments.push(newComment); // Add the comment
+        await thread.save(); // Save the updated thread
+
+        res.status(201).json({ msg: 'Comment added', comment: newComment });
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 module.exports = router;  
