@@ -27,32 +27,45 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         .thread {
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid black; /* Bold black line */
             padding: 10px 0;
         }
+
+
         .thread:last-child {
             border-bottom: none;
         }
         .create-post-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: 2px solid black; /* Black outline */
-    border-radius: 4px;
-    cursor: pointer;
-}
-.create-post-button:hover {
-    background-color: #0056b3;
-}
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: 2px solid black; /* Black outline */
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .create-post-button:hover {
+            background-color: #0056b3;
+        }
+
+        /*thread styling*/
+        .thread small {
+            color: gray;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+
+
+
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Welcome to Grease Monkeys!</h1>
+        <h1 id="welcomeMessage">Welcome to Grease Monkeys!</h1>
         <button id="createPostButton" class="create-post-button">Create Post</button>
     </div>
 
@@ -64,46 +77,46 @@
     </div>
 
     <script>
+
+        // Run this when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const username = localStorage.getItem('username'); // Retrieve the username from localStorage
+
+        if (username) {
+            // Update the welcome message with the user's username
+            welcomeMessage.textContent = `Welcome to Grease Monkeys ${username}!`;
+        }
+    });
         // Function to display threads
         async function displayThreads() {
-    const threadsContainer = document.getElementById('threadsContainer');
-    threadsContainer.innerHTML = ''; // Clear any existing content
+    const threadsContainer = document.getElementById('threadsContainer'); 
+    threadsContainer.innerHTML = ''; // Clear existing threads
 
     try {
-        // Fetch threads from the server
-        const response = await fetch('/api/threads'); // Adjust endpoint if needed
-        if (!response.ok) {
-            throw new Error(`Failed to fetch threads: ${response.statusText}`);
-        }
-
+        const response = await fetch('/api/threads'); // Adjust endpoint if necessary
         const threads = await response.json();
 
-        // Check if threads are received
-        console.log('Fetched threads:', threads);
-
-        if (threads.length === 0) {
-            threadsContainer.innerHTML = '<p>No threads available. Be the first to create one!</p>';
-            return;
-        }
-
-        // Loop through threads and display them
+        // Loop through and display each thread
         threads.forEach(thread => {
             const threadDiv = document.createElement('div');
             threadDiv.className = 'thread';
+
+            // Format the timestamp
+            const formattedDate = new Date(thread.createdAt).toLocaleString(); // Adjust format as needed
+
             threadDiv.innerHTML = `
                 <h3>${thread.title}</h3>
                 <p>${thread.content}</p>
-                <small>Created by: ${thread.creator || 'Anonymous'}</small>
+                <small>Created by: ${thread.creator} on ${formattedDate}</small>
             `;
             threadsContainer.appendChild(threadDiv);
         });
     } catch (error) {
         console.error('Error fetching threads:', error);
-
-        // Display error message on the page
-        threadsContainer.innerHTML = '<p>An error occurred while fetching threads. Please try again later.</p>';
     }
 }
+
 
         // Event listener for create post button
         document.getElementById('createPostButton').addEventListener('click', function() {
