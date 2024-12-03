@@ -3,13 +3,13 @@ const Thread = require('../models/Thread'); // Import your Thread model
 const router = express.Router();
 
 // Create a new thread/post
-router.post('/', async (req, res) => {
+/*router.post('/', async (req, res) => {
     const { title, content } = req.body;
     try {
         const newThread = new Thread({
             title,
             content,
-            creator,//: req.body.creator || "Anonymous"  // Temporary default value
+            creator,
         });
         await newThread.save();
         res.status(201).json({ msg: 'Post created successfully', thread: newThread });
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
         console.error('Error creating post:', error);
         res.status(500).json({ msg: 'Failed to create post' });
     }
-});
+});*/
 
 
 // Create a new thread
@@ -38,7 +38,7 @@ router.post('/create', async (req, res) => {
 
         console.log('Thread created:', newThread);
 
-        // Respond to the client with success
+        // Respond to the client with success or error message
         res.status(201).send({ msg: 'Thread created', thread: newThread });
     } catch (error) {
         console.error('Error creating thread:', error);
@@ -46,22 +46,22 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.get('/threads', async (req, res) => {
+/*router.get('/threads', async (req, res) => {
     try {
-        const threads = await Thread.find().sort({ createdAt: -1 }); // Fetch and sort threads
-        res.json(threads); // Send threads as JSON
+        const threads = await Thread.find().sort({ createdAt: -1 }); // Fetch threads
+        res.json(threads); // Send threads as a JSON
     } catch (error) {
         console.error('Error fetching threads:', error);
         res.status(500).json({ error: 'Server error' }); // Return JSON error message
     }
-});
+});*/
 
 
-router.get('/:id', (req, res) => {
+/*router.get('/:id', (req, res) => {
     res.send(`Thread with ID: ${req.params.id}`);
-});
+});*/
 
-// Fetch all threads
+// Fetch all threads for main page
 router.get('/', async (req, res) => {
     try {
         const threads = await Thread.find().sort({ createdAt: -1 }); // Fetch threads sorted by creation date

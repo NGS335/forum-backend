@@ -4,9 +4,6 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const router = express.Router();
 
-/*router.post('/register', (req, res) => {
-    res.send('User registered');
-});*/
 
 //User registering
 router.post('/register', [
@@ -52,13 +49,7 @@ router.post('/register', [
     }
 });
 
-//login
-
-/*
-router.post('/login', (req, res) => {
-    res.send('User logged in');
-});*/
-
+//user login
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -87,12 +78,6 @@ router.post('/login', async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server error');
     }
-});
-
-
-router.get('/', (req, res) => {
-    console.log('Get / line')
-    res.send('User routes will be here!');
 });
 
 module.exports = router;  

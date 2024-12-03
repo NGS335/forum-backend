@@ -83,8 +83,8 @@
     }
     
     try {
-        // Send the request to the server ()
-        const response = await fetch('api/threads/create', {//http://localhost:5000/create
+        // Send the request to the server 
+        const response = await fetch('api/threads/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body:JSON.stringify ({ title:title, content:content, creator:creator })

@@ -72,12 +72,12 @@
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();  // Prevent form from refreshing the page
+            e.preventDefault();  // Prevent page from refreshing
     
             const messageDiv = document.getElementById('message');
             const loginButton = document.querySelector('button');
     
-            // Get form data
+            // Get login data entered
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
     
@@ -99,7 +99,7 @@
                     console.log('Login successful');
                     localStorage.setItem('username', username); // Save the username locally
                     console.log('username stored locally;', username);
-                    window.location.href = '/forum'; // Redirect to the forum
+                    window.location.href = '/forum'; // Redirect to the forum main page
                 } else {
                     messageDiv.innerHTML = `<p class="error">${data.msg}</p>`;
                 }

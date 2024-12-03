@@ -9,20 +9,6 @@ require('dotenv').config();
 
 const app = express();
 
-//
-/*const userRoutes = express.Router();
-
-userRoutes.post('/register', (req, res) => {
-    res.send('User registered');
-});
-
-const threadRoutes = express.Router();
-
-threadRoutes.post('/create', (req, res) => {
-    res.send('Thread created');
-});
-*///
-
 const userRoutes = require('./routes/userRoutes');  
 const threadRoutes = require('./routes/threadRoutes');
 const postRoutes = require('./routes/postRoutes');
@@ -42,16 +28,7 @@ postRoutes.use((req, res, next)=>{
   console.log('Post Middleware connected');
   next();
 })
-/*
-console.log('User Routes:', typeof userRoutes);   
-console.log('Thread Routes:', typeof threadRoutes); 
-console.log('Post Routes:', typeof postRoutes);    
 
-
-console.log('User Routes:', userRoutes);
-console.log('Thread Routes:', threadRoutes);
-console.log('Post Routes:', postRoutes);
-*/
 
 app.use(express.json()); // parsing
 app.use(express.static(path.join(__dirname, 'public')));
@@ -73,14 +50,13 @@ app.get('/', (req, res) => {
 
 // Serve the main forum page at /forum
 app.get('/forum', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'main.html')); // Adjust path if necessary
+  res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // MongoDB connection 
-
 mongoose.connect(MONGO_URI, { /*useNewUrlParser: true,*/ useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err)); 

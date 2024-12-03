@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Route to serve the main forum page
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../path/to/main.html')); // Adjust the path
+    res.sendFile(path.join(__dirname, '../path/to/main.html')); 
 });
 
 module.exports = router;
