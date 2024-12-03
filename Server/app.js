@@ -8,6 +8,7 @@ const session = require('express-session');
 require('dotenv').config(); 
 
 const app = express();
+app.use(express.static('public'));
 
 const userRoutes = require('./routes/userRoutes');  
 const threadRoutes = require('./routes/threadRoutes');
