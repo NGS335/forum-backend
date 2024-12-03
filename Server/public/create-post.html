@@ -95,7 +95,7 @@
         // Handle response
         if (response.status === 201) {
             document.getElementById('message').innerHTML = `<p class="success">Post created successfully!</p>`;
-            window.location.href = '/forum'; // Redirect to forum page
+            window.location.href = '/'; // Redirect to forum page
         } else {
             document.getElementById('message').innerHTML = `<p class="error">${data.msg}</p>`;
         }

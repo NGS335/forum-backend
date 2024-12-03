@@ -44,12 +44,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/threads', threadRoutes);
 app.use('/api/posts', postRoutes);
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   res.send('Welcome to the forum!');
-});
+});*/
 
 // Serve the main forum page at /forum
-app.get('/forum', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
