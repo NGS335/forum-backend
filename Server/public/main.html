@@ -23,15 +23,15 @@
         position: absolute;
         top: 7.5px;
         left: 30px;
-        height: 120px; /* Adjust size as needed */
-        width: auto;  /* Maintain aspect ratio */
+        height: 120px; 
+        width: auto;  
         }
 
         
 
         .header h1 {
             margin: 0;
-            padding-left: 70px; /* Adjust to provide space for the logo */
+            padding-left: 70px; 
         }
 
         .forum-container {
@@ -145,7 +145,7 @@
     <div class="header">
         <img src="images/logo.PNG" alt="Grease Monkeys Logo" class="logo">
         <h1 id="welcomeMessage">Welcome to Grease Monkeys!</h1>
-        <button id="switchAccountButton" class="switch-account-button">Switch Account</button>
+        <button id="switchAccountButton" class="switch-account-button">Log Out</button>
         <button id="createPostButton" class="create-post-button">Create Post</button>
     </div>
 
@@ -218,7 +218,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ content: commentContent, creator: localStorage.getItem('username') })
                     });
-
+                    
                     if (response.ok) {
                         displayThreads(); // Refresh threads to include the new comment
                     } else {
