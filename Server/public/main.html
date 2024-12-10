@@ -143,7 +143,7 @@
 <body>
     
     <div class="header">
-        <img src="images/logo.PNG" alt="Grease Monkeys Logo" class="logo">
+        <img src="images/munkee.gif" alt="Site Logo" class="logo">
         <h1 id="welcomeMessage">Welcome to Grease Monkeys!</h1>
         <button id="switchAccountButton" class="switch-account-button">Log Out</button>
         <button id="createPostButton" class="create-post-button">Create Post</button>
@@ -208,26 +208,37 @@
             // comment listener
             const commentForm = threadDiv.querySelector('.comment-form');
             commentForm.addEventListener('submit', async function (e) {
-                e.preventDefault();
-                const commentInput = threadDiv.querySelector('.comment-input');
-                const commentContent = commentInput.value;
+    e.preventDefault();
 
-                try {
-                    const response = await fetch(`/api/threads/${thread._id}/comments`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ content: commentContent, creator: localStorage.getItem('username') })
-                    });
-                    
-                    if (response.ok) {
-                        displayThreads(); // Refresh threads to include the new comment
-                    } else {
-                        console.error('Error posting comment:', await response.json());
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+            // Check if the user is logged in
+            const username = localStorage.getItem('username');
+            if (!username) {
+                // If not logged in, show an alert and redirect to the login page
+                alert('You must be logged in to post a comment.');
+                window.location.href = 'login.html'; // Replace with the actual path to your login page
+                return;
+            }
+
+            // Proceed with posting the comment if logged in
+            const commentInput = threadDiv.querySelector('.comment-input');
+            const commentContent = commentInput.value;
+
+            try {
+                const response = await fetch(`/api/threads/${thread._id}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: commentContent, creator: username })
             });
+
+            if (response.ok) {
+                displayThreads(); // Refresh threads to include the new comment
+            } else {
+                console.error('Error posting comment:', await response.json());
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
 
             threadsContainer.appendChild(threadDiv);
         });
