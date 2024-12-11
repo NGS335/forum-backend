@@ -12,7 +12,6 @@ app.use(express.static('public'));
 
 const userRoutes = require('./routes/userRoutes');  
 const threadRoutes = require('./routes/threadRoutes');
-const postRoutes = require('./routes/postRoutes');
 const { timeStamp, timeLog } = require('console');
  
 userRoutes.use((req, res, next)=>{
@@ -25,31 +24,22 @@ threadRoutes.use((req, res, next)=>{
   next();
 })
 
-postRoutes.use((req, res, next)=>{
-  console.log('Post Middleware connected');
-  next();
-})
 
 
 app.use(express.json()); // parsing
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'yourSecretKey',  // Replace with a secure key in production
+  secret: 'yourSecretKey',  
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }  // Set to true if using HTTPS
+  cookie: { secure: false }  // Set to true if using own domain
 }));
 
 //routes
 app.use('/api/users', userRoutes);   
 app.use('/api/threads', threadRoutes);
-app.use('/api/posts', postRoutes);
 
-/*app.get('/', (req, res) => {
-  res.send('Welcome to the forum!');
-});*/
-
-// Serve the main forum page at /forum
+// Serve the main forum page at /(localhost:5000)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
