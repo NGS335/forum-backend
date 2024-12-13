@@ -145,7 +145,7 @@
     <div class="header">
         <img src="images/munkee.gif" alt="Site Logo" class="logo">
         <h1 id="welcomeMessage">Welcome to Grease Monkeys!</h1>
-        <button id="switchAccountButton" class="switch-account-button">Log Out</button>
+        <button id="switchAccountButton" class="switch-account-button">Log In/Out</button>
         <button id="createPostButton" class="create-post-button">Create Post</button>
     </div>
 
@@ -164,7 +164,7 @@
         const username = localStorage.getItem('username'); // Retrieve the username from localStorage
 
         if (username) {
-            //welcome message
+            // welcome message
             welcomeMessage.textContent = `Welcome to Grease Monkeys ${username}!`;
         }
     });
@@ -215,7 +215,7 @@
             if (!username) {
                 // If not logged in, show an alert and redirect to the login page
                 alert('You must be logged in to post a comment.');
-                window.location.href = 'login.html'; // Replace with the actual path to your login page
+                window.location.href = 'login.html';
                 return;
             }
 
@@ -262,7 +262,7 @@
             localStorage.removeItem('username');
 
             // Redirect to the login page
-            window.location.href = 'login.html'; // Replace with the actual path to your login page
+            window.location.href = 'login.html';
         });
     </script>
 

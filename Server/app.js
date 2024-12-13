@@ -2,8 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
-const session = require('express-session');
-
 
 require('dotenv').config(); 
 
@@ -24,16 +22,8 @@ threadRoutes.use((req, res, next)=>{
   next();
 })
 
-
-
 app.use(express.json()); // parsing
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'yourSecretKey',  
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false }  // Set to true if using own domain
-}));
 
 //routes
 app.use('/api/users', userRoutes);   
